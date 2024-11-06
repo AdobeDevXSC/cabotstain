@@ -1,0 +1,105 @@
+.best-sellers-container {
+    max-width: var(--large-grid-layout);
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+  
+  .best-sellers {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+  }
+  
+  .best-sellers .wide-card {
+    display: flex;
+    align-items: stretch;
+    height: 135px;
+    border: 1px solid var(--dark-color);
+  }
+  
+  @media (width <= 768px) {
+    .best-sellers .wide-card {
+      height: 100%;
+    }
+  }
+  
+  .best-sellers .wide-card .card-image {
+    width: 135px;
+    align-self: stretch;
+   /*flex: 1;
+    box-sizing: border-box;*/
+  }
+  
+  @media (width <= 768px) {
+    .best-sellers .wide-card .card-image {
+      width: 30%;
+    }
+  }
+  
+  .best-sellers .wide-card .card-info {
+    width: 70%;
+    background-color: var(--color-neutral-200);
+    box-sizing: border-box;
+    padding: .2rem 3rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (width <= 768px) {
+    .best-sellers .wide-card .card-info {
+      width: 70%;
+    }
+  }
+  
+  .best-sellers .wide-card .card-image img {
+    width: 135px;
+    height: 135px;
+    object-fit: cover;
+  }
+  
+  .best-sellers .wide-card .card-info h1,
+  .best-sellers .wide-card .card-info h2,
+  .best-sellers .wide-card .card-info h3,
+  .best-sellers .wide-card .card-info h4,
+  .best-sellers .wide-card .card-info h5,
+  .best-sellers .wide-card .card-info h6 {
+    font-family: var(--heading-font-family);
+    font-size: var(--heading-font-size-md);
+    line-height: normal;
+    margin: 0;
+  }
+  
+  .best-sellers .wide-card .card-info p {
+    margin: 1rem 0;
+  }
+  
+  @media (width <= 1024px) {
+    .best-sellers .wide-card .card-info p {
+      font-size: var(--body-font-size-xs);
+    }
+  }
+  
+  .best-sellers .card-info p.button-container {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+  
+  .best-sellers .card-info .custom-link {
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .best-sellers .card-info .custom-link:hover {
+    color: inherit;
+  }
+  
+  .best-sellers .card-info .custom-link::after {
+    content: ">";
+    padding-left: 15px;
+    font-size: var(--body-font-size-xs);
+    transition: padding-left 0.3s;
+  }
+  
+  .best-sellers .card-info .custom-link:hover::after {
+    padding-left: 20px;
+  }

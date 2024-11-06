@@ -1,0 +1,219 @@
+.cardstwo-container .default-content-wrapper h2 {
+  font-weight: 200;
+  font-size: var(--heading-font-size-s);
+  text-align: center;
+}
+
+.cardstwo-container .default-content-wrapper h4 {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: var(--body-font-size-xxs);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.cardstwo > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+  grid-gap: 16px;
+}
+
+.cardstwo > ul > li {
+  border: 1px solid var(--dark-color);
+  background-color: var(--background-color);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cardstwo .cardstwo-card-body {
+  margin: 16px;
+}
+
+.cardstwo .cardstwo-card-image {
+  line-height: 0;
+}
+
+.cardstwo .cardstwo-card-body > *:first-child {
+  margin-top: 0;
+}
+
+.cardstwo > ul > li img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* card typography */
+.cardstwo .cardstwo-card-body h3 {
+  font-weight: 400;
+  font-size: 25px;
+  font-style: italic;
+   color: blueviolet;
+   margin: 0;
+}
+
+.cardstwo .cardstwo-card-body h3 strong {
+  font-weight: 500;
+  font-size: var(--heading-font-size-xs);
+  margin: 0;
+}
+
+.cardstwo .cardstwo-card-body h4,
+.cardstwo .cardstwo-card-body h3 em {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: var(--body-font-size-xxs);
+  margin: 0;
+  font-style: normal;
+}
+
+.cardstwo .cardstwo-card-body h3 strong em {
+  font-weight: 500;
+  font-family: var(--heading-font-family);
+  font-size: 7px;
+  font-style: normal;
+  vertical-align: super;
+  margin-left: -3px;
+  letter-spacing: 0.02rem;
+}
+
+/* variable cards */
+.variable-width-cards .cardstwo ul li .cardstwo-card-body {
+  text-align: center;
+}
+
+.variable-width-cards .cardstwo ul li .cardstwo-card-image {
+  height: 180px;
+}
+
+.variable-width-cards .cardstwo ul li .cardstwo-card-image img {
+  height: 180px;
+}
+
+
+/* small product cards */
+.small-cards .cardstwo > ul {
+  grid-template-columns: repeat(auto-fill, minmax(186px, 1fr));
+}
+
+.small-cards .cardstwo ul li {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-cards .cardstwo ul li .cardstwo-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 100px;
+  margin: 0 0 0 16px;
+}
+
+.small-cards .cardstwo ul li .cardstwo-card-body h3 {
+  margin: 10px 0 15px;
+  max-width: 150px;
+  min-height: 40px;
+}
+
+.small-cards .cardstwo ul li .cardstwo-card-body h3:nth-of-type(2) {
+  margin: 0;
+  min-height: auto;
+}
+
+.small-cards .cardstwo ul li .cardstwo-card-body h3 em{
+  margin-left: 5px;
+  font-size: calc(var(--body-font-size-xxs) - 2px);
+}
+
+.small-cards .cardstwo ul li .cardstwo-card-image {
+  height: 135px;
+  width: 135px;
+}
+
+.small-cards .cardstwo ul li .cardstwo-card-image img {
+  height: 100%;
+}
+
+/* editorial cards */
+.editorial-cards:not(.product-cards) .cardstwo > ul {
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 16px;
+}
+
+.editorial-cards:not(.product-cards) .cardstwo ul li:first-of-type,
+.editorial-cards:not(.product-cards) .cardstwo ul li:nth-of-type(2),
+.editorial-cards:not(.product-cards) .cardstwo ul li:nth-of-type(3) {
+  grid-column: span 4;
+  
+}
+
+.editorial-cards:not(.product-cards) .cardstwo ul li {
+  grid-column: span 3;
+}
+
+.editorial-cards:not(.product-cards) .cardstwo ul li .cardstwo-card-body {
+  text-align: center;
+}
+
+
+/* editorial and product cards */
+.editorial-cards.product-cards .cardstwo ul li:first-of-type {
+  position: relative;
+}
+
+@media (width >= 900px) {
+  .editorial-cards.product-cards .cardstwo ul li:first-of-type {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+    position: relative;
+  }
+}
+
+.editorial-cards.product-cards .cardstwo ul li:first-of-type .cardstwo-card-image {
+  height: 100%;
+}
+
+.editorial-cards.product-cards .cardstwo ul li:first-of-type .cardstwo-card-image img {
+  height: 100%;
+}
+
+.editorial-cards.product-cards .cardstwo ul li:first-of-type .cardstwo-card-body {
+  margin: 0;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+@media (width >= 900px) {
+  .editorial-cards.product-cards .cardstwo ul li:first-of-type .cardstwo-card-body {
+    bottom: 50px;
+    left: 50px;
+  }
+}
+
+/* editorial & product card specific typography and spacing */
+.editorial-cards.product-cards .cardstwo ul li .cardstwo-card-body h3:first-of-type {
+  margin-bottom: 10px;
+}
+
+.editorial-cards.product-cards .cardstwo ul li .cardstwo-card-body h3 strong em {
+  margin-right: 5px;
+}
+
+/* editorial & product card button style */
+.editorial-cards.product-cards .cardstwo ul li:first-of-type .cardstwo-card-body a {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  display: block;
+}

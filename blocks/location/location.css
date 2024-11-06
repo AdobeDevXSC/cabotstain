@@ -1,0 +1,17 @@
+.location.block {
+    padding: 15px;
+    background-color: rgb(243, 240, 240);
+    text-align: center;
+    color: black;
+}
+
+.location a {
+    color: red;
+}
+
+.location img {
+    vertical-align: bottom;
+    width: 100ﬁ;
+    height: 19px;
+    padding-right: 5px;
+}
