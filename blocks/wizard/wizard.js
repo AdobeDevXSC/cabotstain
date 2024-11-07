@@ -77,29 +77,80 @@ fetch(urlBase + '/deck.json?sheet=master')
     // do not include the type in the url parameter string - this is computed at the anchor link generation
     if (key != 'type') anchorURLParameters += '&' + key + '=' + dictFilterParameters[key];
   }
-  
-  for (var i=0; i < questionList.length; i++) {
+
+  // check if there are any questions
+  if (questionList.length > 0){
 
     // display the step number and question
-    if (i === 0) {
+    document.getElementById('header-here').textContent = questionList[0].step + ". " + questionList[0].question ;
 
-      document.getElementById('header-here').textContent = questionList[0].step + ". " + questionList[0].question ;
-    }
+    // check if multi select question
+    if (questionList[0].multiselect === "true") {
 
-    // build list of options for the question
-    document.getElementById('surface-type-here').innerHTML += "<br />"
-    document.getElementById('surface-type-here').innerHTML += "<img loading=\"eager\"  src=\"" + questionList[i].image + "?width=200&amp;format=jpg&amp;optimize=medium\" width=\"200\" height=\"200\">"
-   
-    // if this is a product link to the product detail page else next question
-    if (dictFilterParameters['type'] === "product") {
-    
-      document.getElementById('surface-type-here').innerHTML += "<a href=" +  questionList[i].url + ">" + questionList[i].name + "</a>"
+      // build list of options for the question
+      for (var i=0; i < questionList.length; i++) {      
+
+        document.getElementById('surface-type-here').innerHTML += "<br />"
+        document.getElementById('surface-type-here').innerHTML += "<div><input name=\"" + questionList[i].type + "\" type=\"checkbox\" id=\"" + questionList[i].id + "\" /><label for=\"" + questionList[i].id + "\">" + questionList[i].name; + "</label>"
+        document.getElementById('surface-type-here').innerHTML += "<img loading=\"eager\"  src=\"" + questionList[i].image + "?width=200&amp;format=jpg&amp;optimize=medium\" width=\"200\" height=\"200\">"
+        document.getElementById('surface-type-here').innerHTML += "</div>"
+        document.getElementById('surface-type-here').innerHTML += "<br />"
+      }
+      
+      // add the next button for the multiselect
+      document.getElementById('surface-type-here').innerHTML += "<input type=\"button\" id=\"" + questionList[0].type + "Button\" value=\"Next >\" />"
+
+      // register the click event handler for the next button click event
+      const button = document.getElementById(questionList[0].type + "Button");
+      button.addEventListener("click", updateButton);
+
+      // button click event handler
+      function updateButton() {
+
+        // get the list of options 
+        const theCheckboxes = document.getElementsByName(questionList[0].type);
+
+        // determine which checkboxes were selected
+        var selectedItems = ""
+        for (i = 0; i < theCheckboxes.length; i++) {
+
+          if (theCheckboxes[i].type == 'checkbox'){
+
+            if(theCheckboxes[i].checked == true){
+
+              selectedItems += theCheckboxes[i].id + ",";
+            }
+          }  
+        }
+
+        // remove the trailing comma
+        if (selectedItems.length > 0) selectedItems = selectedItems.substring(0,selectedItems.length-1);
+
+        // move to the next wizard panel
+        window.location.href = "/wizard?type=" + questionList[0].next + "&" + questionList[0].type + "=" + selectedItems + anchorURLParameters
+      }
+
     } else {
-    
-      document.getElementById('surface-type-here').innerHTML += "<a href=\"wizard?type=" + questionList[i].next + "&" + questionList[i].type + "=" + questionList[i].id + anchorURLParameters + "\">" + questionList[i].name + "</a>"
-    }
 
-    document.getElementById('surface-type-here').innerHTML += "<br />"
+      // build list of options for the question
+      for (var i=0; i < questionList.length; i++) {      
+
+        document.getElementById('surface-type-here').innerHTML += "<br />"
+        
+        document.getElementById('surface-type-here').innerHTML += "<img loading=\"eager\"  src=\"" + questionList[i].image + "?width=200&amp;format=jpg&amp;optimize=medium\" width=\"200\" height=\"200\">"
+        
+        // if this is a product link to the product detail page else next question
+        if (dictFilterParameters['type'] === "product") {
+        
+          document.getElementById('surface-type-here').innerHTML += "<a href=" +  questionList[i].url + ">" + questionList[i].name + "</a>"
+        } else {
+        
+          document.getElementById('surface-type-here').innerHTML += "<a href=\"wizard?type=" + questionList[i].next + "&" + questionList[i].type + "=" + questionList[i].id + anchorURLParameters + "\">" + questionList[i].name + "</a>"
+        }
+
+        document.getElementById('surface-type-here').innerHTML += "<br />"
+      }
+    }
   }
 
   })
