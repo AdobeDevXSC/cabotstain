@@ -9,7 +9,7 @@ const condition = urlParams.get('condition');
 const look = urlParams.get('look');
 
 
-fetch('https://main--cabotstain--deckreyes.aem.page/deck.json?sheet=master')
+fetch('https://main--cabotstain--adobedevxsc.aem.page/deck.json?sheet=master')
   .then(response => response.json())
   .then(response => {
     
