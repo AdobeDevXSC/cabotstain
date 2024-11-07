@@ -1,7 +1,9 @@
 
-label {
-    color: black;
-}
 h3#surface-type-here {
     color: white;
 }
+
+h5, label {
+    color: black;
+}
+

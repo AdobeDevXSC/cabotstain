@@ -52,11 +52,29 @@ fetch(urlBase + '/deck.json?sheet=master')
             // ignore the URL parameters of type and brand
             if ((key != 'type') && (key != 'brand')) {
 
-              // check to make sure the eligibility condition column for the questiois not blank, if blank not relevant   
+              // check to make sure the eligibility condition column for the question is not blank, if blank not relevant   
               if (response.data[i][key] != "") {
 
-                // check if the value is not in the eligibility condition column for the question, if not then the question is not displayed
-                if (response.data[i][key].search(dictFilterParameters[key]) == -1) eligible = false
+                // check if there are multiple values to check
+                if (dictFilterParameters[key].includes(",")) {
+
+                  // check each of the filter section again the eligibility condition column for the questiois
+                  const filterParameters = dictFilterParameters[key].split(",");
+
+                  // default the eligibility flag for this condition to false until a match is found in the multiple values
+                  var filterFound = false;
+                  for (var j=0; j < filterParameters.length; j++) {
+                    console.log(filterParameters[j]);
+                    if (response.data[i][key].search(filterParameters[j]) > -1) filterFound = true;
+                  }
+
+                  // concatenate the multiselection list to the main eligibility flag
+                  eligible = eligible && filterFound;
+                } else {
+
+                  // check if the value is not in the eligibility condition column for the question, if not then the question is not displayed
+                  if (response.data[i][key].search(dictFilterParameters[key]) == -1) eligible = false;
+                }
               } 
             }
           }
@@ -142,10 +160,11 @@ fetch(urlBase + '/deck.json?sheet=master')
         // if this is a product link to the product detail page else next question
         if (dictFilterParameters['type'] === "product") {
         
-          document.getElementById('surface-type-here').innerHTML += "<a href=" +  questionList[i].url + ">" + questionList[i].name + "</a>"
+          document.getElementById('surface-type-here').innerHTML += "<br /><a href=" +  questionList[i].url + ">" + questionList[i].name + "</a>"
+          document.getElementById('surface-type-here').innerHTML += "<br /><h5>" + questionList[i].description +"</h5>";
         } else {
         
-          document.getElementById('surface-type-here').innerHTML += "<a href=\"wizard?type=" + questionList[i].next + "&" + questionList[i].type + "=" + questionList[i].id + anchorURLParameters + "\">" + questionList[i].name + "</a>"
+          document.getElementById('surface-type-here').innerHTML += "<br /><a href=\"wizard?type=" + questionList[i].next + "&" + questionList[i].type + "=" + questionList[i].id + anchorURLParameters + "\">" + questionList[i].name + "</a>"
         }
 
         document.getElementById('surface-type-here').innerHTML += "<br />"
