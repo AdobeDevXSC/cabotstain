@@ -5,6 +5,12 @@ const urlParams = new URLSearchParams(queryString);
 var dictFilterParameters = {};
 urlParams.forEach((value, key) => {dictFilterParameters[key] = value;});
 
+// get the current url path
+const pathName = window.location.pathname;
+
+// if there is no brand parameter default to "cabot"
+if (!('brand' in dictFilterParameters)) dictFilterParameters["brand"] = "cabot";
+
 // retrieve the configuration document
 const urlBase = window.location.protocol + '//' + window.location.host;
 fetch(urlBase + '/deck.json?sheet=master')
@@ -84,6 +90,7 @@ fetch(urlBase + '/deck.json?sheet=master')
         if (eligible ) questionList.push(response.data[i]);
       }
     } else {
+
       if (response.data[i].brand === dictFilterParameters['brand'] && response.data[i].start) questionList.push(response.data[i]);
     }
   }
@@ -108,15 +115,22 @@ fetch(urlBase + '/deck.json?sheet=master')
       // build list of options for the question
       for (var i=0; i < questionList.length; i++) {      
 
-        document.getElementById('surface-type-here').innerHTML += "<br />"
-        document.getElementById('surface-type-here').innerHTML += "<div><input name=\"" + questionList[i].type + "\" type=\"checkbox\" id=\"" + questionList[i].id + "\" /><label for=\"" + questionList[i].id + "\">" + questionList[i].name; + "</label>"
-        document.getElementById('surface-type-here').innerHTML += "<img loading=\"eager\"  src=\"" + questionList[i].image + "?width=200&amp;format=jpg&amp;optimize=medium\" width=\"200\" height=\"200\">"
-        document.getElementById('surface-type-here').innerHTML += "</div>"
-        document.getElementById('surface-type-here').innerHTML += "<br />"
+        document.getElementById('surface-type-here').innerHTML += `
+          <div id="${questionList[i].id}" class="question">
+            <div id="${questionList[i].id}" class="multiselect-question">
+            <div>
+              <input name="${questionList[i].type}" type="checkbox" id="${questionList[i].id}" />
+              <img loading="eager" src="${questionList[i].image}?width=200&amp;format=jpg&amp;optimize=medium" width="200" height="200" />"
+              <br />
+              <label for="${questionList[i].id}">${questionList[i].name}</label>
+            </div>
+            <br />
+          </div>
+        `;
       }
       
       // add the next button for the multiselect
-      document.getElementById('surface-type-here').innerHTML += "<input type=\"button\" id=\"" + questionList[0].type + "Button\" value=\"Next >\" />"
+      document.getElementById('surface-type-here').innerHTML += `<input type="button" id="${questionList[0].type + "Button"}" value="Next >" />`;
 
       // register the click event handler for the next button click event
       const button = document.getElementById(questionList[0].type + "Button");
@@ -134,10 +148,7 @@ fetch(urlBase + '/deck.json?sheet=master')
 
           if (theCheckboxes[i].type == 'checkbox'){
 
-            if(theCheckboxes[i].checked == true){
-
-              selectedItems += theCheckboxes[i].id + ",";
-            }
+            if (theCheckboxes[i].checked == true) selectedItems += theCheckboxes[i].id + ",";
           }  
         }
 
@@ -145,7 +156,7 @@ fetch(urlBase + '/deck.json?sheet=master')
         if (selectedItems.length > 0) selectedItems = selectedItems.substring(0,selectedItems.length-1);
 
         // move to the next wizard panel
-        window.location.href = "/wizard?type=" + questionList[0].next + "&" + questionList[0].type + "=" + selectedItems + anchorURLParameters
+        window.location.href = pathName + "?type=" + questionList[0].next + "&" + questionList[0].type + "=" + selectedItems + anchorURLParameters
       }
 
     } else {
@@ -153,27 +164,42 @@ fetch(urlBase + '/deck.json?sheet=master')
       // build list of options for the question
       for (var i=0; i < questionList.length; i++) {      
 
-        document.getElementById('surface-type-here').innerHTML += "<br />"
-        
-        document.getElementById('surface-type-here').innerHTML += "<img loading=\"eager\"  src=\"" + questionList[i].image + "?width=200&amp;format=jpg&amp;optimize=medium\" width=\"200\" height=\"200\">"
-        
         // if this is a product link to the product detail page else next question
         if (dictFilterParameters['type'] === "product") {
         
-          document.getElementById('surface-type-here').innerHTML += "<br /><a href=" +  questionList[i].url + ">" + questionList[i].name + "</a>"
-          document.getElementById('surface-type-here').innerHTML += "<br /><h5>" + questionList[i].description +"</h5>";
+          document.getElementById('surface-type-here').innerHTML += `
+            <div id="${questionList[i].id}" class="product">
+              <img loading="eager"  src="${questionList[i].image}?width=200&amp;format=jpg&amp;optimize=medium" width="200" height="200" \>
+              <br />
+              <a href=${questionList[i].url}>${questionList[i].name}</a>
+              <br />
+              <h5>${questionList[i].description}</h5>"
+              <br />
+            </div>
+          `;
         } else {
         
-          document.getElementById('surface-type-here').innerHTML += "<br /><a href=\"wizard?type=" + questionList[i].next + "&" + questionList[i].type + "=" + questionList[i].id + anchorURLParameters + "\">" + questionList[i].name + "</a>"
+          document.getElementById('surface-type-here').innerHTML += `
+            <div id="${questionList[i].id}" class="question">
+              <br />
+              <img loading="eager"  src="${questionList[i].image}?width=200&amp;format=jpg&amp;optimize=medium" width="200" height="200" \>
+              <br />
+              <a href="${pathName}?type=${questionList[i].next}&${questionList[i].type}=${questionList[i].id}${anchorURLParameters}">${questionList[i].name}</a>
+            </div>
+          `;
         }
-
-        document.getElementById('surface-type-here').innerHTML += "<br />"
       }
     }
   }
 
   })
   .catch(error => {
+
+    document.getElementById('surface-type-here').innerHTML += `
+        <h1>ERROR: Loading Configuration</h1>
+        <br />
+        ${error}
+        `;
     
     console.log('Error fetching products', error);
   });
