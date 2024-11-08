@@ -106,6 +106,8 @@ fetch(urlBase + '/deck.json?sheet=master')
   // check if there are any questions
   if (questionList.length > 0){
 
+    document.getElementById('surface-type-here').removeChild(document.getElementById('surface-type-here').firstChild);
+
     // display the step number and question
     document.getElementById('header-here').textContent = questionList[0].step + ". " + questionList[0].question ;
 
@@ -130,7 +132,11 @@ fetch(urlBase + '/deck.json?sheet=master')
       }
       
       // add the next button for the multiselect
-      document.getElementById('surface-type-here').innerHTML += `<input type="button" id="${questionList[0].type + "Button"}" value="Next >" />`;
+      document.getElementById('surface-type-here').innerHTML += `
+        <div id="nextButton"> 
+          <input type="button" id="${questionList[0].type + "Button"}" value="Next >" />
+        </div>
+      `;
 
       // register the click event handler for the next button click event
       const button = document.getElementById(questionList[0].type + "Button");
@@ -195,11 +201,5 @@ fetch(urlBase + '/deck.json?sheet=master')
   })
   .catch(error => {
 
-    document.getElementById('surface-type-here').innerHTML += `
-        <h1>ERROR: Loading Configuration</h1>
-        <br />
-        ${error}
-        `;
-    
     console.log('Error fetching products', error);
   });
