@@ -2,8 +2,14 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+
+Sherwin Williams Interior Paint Wizard
+- Preview: https://main--cabotstain--adobedevxsc.aem.page/wizard?brand=sherwin-williams
+- Live: https://main--cabotstain--adobedevxsc.aem.live/wizard?brand=sherwin-williams
+
+Cabot Stain Wizard
+- Preview: https://main--cabotstain--adobedevxsc.aem.page/wizard?brand=cabot
+- Live: https://main--cabotstain--adobedevxsc.aem.live/wizard?brand=cabot
 
 ## Installation
 
